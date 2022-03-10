@@ -1,35 +1,27 @@
 const INITIAL_STATE = {
-  player: {
-    name: '',
-    gravatarEmail: '',
-    score: 0,
-    assertions: 0,
-  },
+  name: '',
+  gravatarEmail: '',
+  score: 0,
+  assertions: 0,
 };
 
-const playerReducer = (state = INITIAL_STATE, action) => {
+const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case PLAYER_LOGIN:
-    state = {
+    return {
       ...state,
-      player: {
-        name: action.payload.name,
-        gravatarEmail: action.payload.gravatarEmail,
-      },
+      name: action.payload.name,
+      gravatarEmail: action.payload.gravatarEmail,
     };
-    return state;
   case CHANGE_SCORE:
-    state = {
+    return {
       ...state,
-      player: {
-        score: action.payload.score,
-        assertions: action.payload.assertions,
-      },
+      score: action.payload.score,
+      assertions: action.payload.assertions,
     };
-    return state;
   default:
     return state;
   }
 };
 
-export default playerReducer;
+export default player;
