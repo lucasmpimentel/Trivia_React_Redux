@@ -1,3 +1,5 @@
+import { GET_TOKEN } from '../actions';
+
 const INITIAL_STATE = { token: '' };
 
 const token = (state = INITIAL_STATE, action) => {

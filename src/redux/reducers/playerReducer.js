@@ -1,3 +1,5 @@
+import { PLAYER_LOGIN, CHANGE_SCORE } from '../actions';
+
 const INITIAL_STATE = {
   name: '',
   gravatarEmail: '',
