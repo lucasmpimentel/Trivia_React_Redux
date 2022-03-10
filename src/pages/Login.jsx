@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import getTokenAPI from '../redux/actions/fetch';
+import { token } from '../redux/actions';
+import logo from '../trivia.png';
+// import '../App.css';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     buttonDisabled: true,
     userEmail: '',
@@ -15,12 +21,27 @@ export default class Login extends Component {
     });
   }
 
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const { dispatch, history } = this.props;
+    const tokenUser = await getTokenAPI();
+    const saveTokenUser = (item) => localStorage.setItem('token', item);
+    saveTokenUser(tokenUser);
+    dispatch(token(tokenUser));
+    history.push('/dashboard');
+  }
+
   render() {
-    const { handleChange } = this;
+    const { handleChange, handleSubmit } = this;
     const { buttonDisabled, userEmail, userName } = this.state;
     return (
       <main>
-        <section className="login-container">
+        <div className="App">
+          <header className="App-header">
+            <img src={ logo } className="App-logo" alt="logo" />
+          </header>
+        </div>
+        <form className="login-container" onSubmit={ handleSubmit }>
           <input
             type="text"
             data-testid="input-player-name"
@@ -44,8 +65,17 @@ export default class Login extends Component {
           >
             Play
           </button>
-        </section>
+        </form>
       </main>
     );
   }
 }
+
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default connect()(Login);
