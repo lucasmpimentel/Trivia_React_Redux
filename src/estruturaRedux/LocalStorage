@@ -1,0 +1,18 @@
+store = {
+  player: {
+    name,
+    gravatarEmail,
+    score,
+    assertions,
+  }
+  token: {
+	  token,
+	}
+}
+
+
+LOCAL STORAGE
+
+ranking=[
+	  { name: nome-da-pessoa, score: 10, picture: url-da-foto-no-gravatar }
+	]
