@@ -6,13 +6,11 @@ import Login from './pages/Login';
 
 export default function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={ Login } />
-          <Route exact path="/dashboard" component={ Dashboard } />
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route exact path="/dashboard" component={ Dashboard } />
+      </Switch>
+    </BrowserRouter>
   );
 }

@@ -1,0 +1,40 @@
+.header-container {
+  align-items: center;
+  border: 1px solid;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.profile-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 30vw;
+}
+
+.profile-container h2 {
+  margin: 0 0 0 5px;
+}
+
+.logo-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 30vw;
+}
+
+.trivia-logo {
+  align-self: center;
+  display: flex;
+  justify-self: center;
+  max-width: 200px;
+}
+
+.score-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 30vw;
+}

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import getTokenAPI from '../redux/actions/fetch';
-import { token } from '../redux/actions';
+import { token, player } from '../redux/actions';
 import logo from '../trivia.png';
-// import '../App.css';
+import '../styles/Login.css';
 
 class Login extends Component {
   state = {
@@ -23,11 +24,19 @@ class Login extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+    const { userEmail, userName } = this.state;
     const { dispatch, history } = this.props;
+    const encryptEmail = md5(userEmail).toString();
+    const playerState = {
+      name: userName,
+      gravatarEmail: encryptEmail,
+    };
+    const playerJSON = JSON.stringify(playerState);
     const tokenUser = await getTokenAPI();
-    const saveTokenUser = (item) => localStorage.setItem('token', item);
-    saveTokenUser(tokenUser);
+    window.localStorage.setItem('token', tokenUser);
+    window.localStorage.setItem('player', playerJSON);
     dispatch(token(tokenUser));
+    dispatch(player(playerState));
     history.push('/dashboard');
   }
 
@@ -35,14 +44,15 @@ class Login extends Component {
     const { handleChange, handleSubmit } = this;
     const { buttonDisabled, userEmail, userName } = this.state;
     return (
-      <main>
-        <div className="App">
+      <main className="App">
+        <div>
           <header className="App-header">
             <img src={ logo } className="App-logo" alt="logo" />
           </header>
         </div>
         <form className="login-container" onSubmit={ handleSubmit }>
           <input
+            className="input-login"
             type="text"
             data-testid="input-player-name"
             placeholder="Nome"
@@ -51,6 +61,7 @@ class Login extends Component {
             onChange={ handleChange }
           />
           <input
+            className="input-login"
             type="email"
             data-testid="input-gravatar-email"
             placeholder="Email"
@@ -59,11 +70,20 @@ class Login extends Component {
             value={ userEmail }
           />
           <button
+            className="input-login button-login"
             type="submit"
             data-testid="btn-play"
             disabled={ buttonDisabled }
           >
             Play
+          </button>
+          <button
+            className="input-login button-settings"
+            type="button"
+            data-testid="btn-settings"
+            onClick="#"
+          >
+            Configurações
           </button>
         </form>
       </main>
