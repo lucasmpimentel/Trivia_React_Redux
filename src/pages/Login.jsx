@@ -31,8 +31,13 @@ class Login extends Component {
     history.push('/dashboard');
   }
 
+  handleClick = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, handleClick } = this;
     const { buttonDisabled, userEmail, userName } = this.state;
     return (
       <main>
@@ -64,6 +69,14 @@ class Login extends Component {
             disabled={ buttonDisabled }
           >
             Play
+          </button>
+          <button
+            className="input-login button-settings"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ handleClick }
+          >
+            Configurações
           </button>
         </form>
       </main>
