@@ -7,14 +7,11 @@ import Settings from './pages/Settings';
 
 export default function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={ Login } />
-          <Route exact path="/dashboard" component={ Dashboard } />
-          <Route exact path="/settings" component={ Settings } />
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route exact path="/dashboard" component={ Dashboard } />
+      </Switch>
+    </BrowserRouter>
   );
 }
