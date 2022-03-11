@@ -31,8 +31,7 @@ class Login extends Component {
     history.push('/dashboard');
   }
 
-  handleClick = (event) => {
-    event.preventDefault();
+  handleClick = () => {
     const { history } = this.props;
     history.push('/settings');
   }
@@ -71,16 +70,15 @@ class Login extends Component {
           >
             Play
           </button>
-        </form>
-        <nav>
           <button
+            className="input-login button-settings"
             type="button"
             data-testid="btn-settings"
             onClick={ handleClick }
           >
             Configurações
           </button>
-        </nav>
+        </form>
       </main>
     );
   }
