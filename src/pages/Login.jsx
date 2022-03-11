@@ -31,8 +31,14 @@ class Login extends Component {
     history.push('/dashboard');
   }
 
+  handleClick = (event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, handleClick } = this;
     const { buttonDisabled, userEmail, userName } = this.state;
     return (
       <main>
@@ -66,6 +72,15 @@ class Login extends Component {
             Play
           </button>
         </form>
+        <nav>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ handleClick }
+          >
+            Configurações
+          </button>
+        </nav>
       </main>
     );
   }
