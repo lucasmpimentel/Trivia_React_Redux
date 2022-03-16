@@ -35,6 +35,7 @@ class Login extends Component {
     const playerJSON = JSON.stringify(playerState);
     const tokenUser = await getTokenAPI();
     setItemToken(tokenUser);
+    console.log(tokenUser);
     setItemPlayer(playerJSON);
     dispatch(token(tokenUser));
     dispatch(player(playerState));

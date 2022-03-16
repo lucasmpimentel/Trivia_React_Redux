@@ -19,11 +19,11 @@ export async function refreshTokenAPI() {
   const response = await (getQuestionsAPI());
   const { response_code: responseCode, results } = response;
   const responseError = 3;
-  const newToken = await getTokenAPI();
-  switch (responseCode) {
-  case responseError:
+  if (responseCode === responseError) {
+    const newToken = await getTokenAPI();
     setItemToken(newToken);
-    return response;
-  default: return results;
+    const newResponse = await (getQuestionsAPI());
+    return newResponse.results;
   }
+  return results;
 }

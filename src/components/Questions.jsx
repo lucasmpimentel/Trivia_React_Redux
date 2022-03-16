@@ -6,11 +6,33 @@ export default class Questions extends Component {
   state = {
     questions: [],
     indexQuestions: 0,
+    index: 0,
   }
 
   async componentDidMount() {
     const getQuestions = await refreshTokenAPI();
-    this.setState({ questions: getQuestions });
+    this.setState({ questions: (getQuestions.map((item) => {
+      const allAnswers = [];
+      item.incorrect_answers.forEach((wrongAnswer) => {
+        allAnswers.push({
+          answerText: wrongAnswer,
+          isCorrect: false,
+        });
+      });
+      allAnswers.push({
+        answerText: item.correct_answer,
+        isCorrect: true,
+      });
+      return ({
+        category: item.category,
+        question: item.question,
+        allAnswers,
+      });
+    })) }, () => {
+      const { questions } = this.state;
+      const randomized = this.randomAnswer(questions[0].allAnswers);
+      console.log(randomized);
+    });
   }
 
   handleClick = () => {
@@ -18,53 +40,42 @@ export default class Questions extends Component {
     this.setState({ indexQuestions: indexQuestions + 1 });
   };
 
-  randomNumber = () => {
-    const answersNumber = 5;
-    return Math.random() * answersNumber;
+  randomAnswer = (array) => {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
   }
 
   render() {
-    const { handleClick } = this;
-    const { questions } = this.state;
-    console.log(questions);
+    const { handleClick, randomAnswer } = this;
+    const { questions, index } = this.state;
     return (
       <section>
         <div className="card-question-container">
           { questions.length === 0 ? <Loading />
-            : questions.map((item) => {
-              /* const { results } = item; */
-              const {
-                category,
-                question,
-                correct_answer: correctAnswer,
-                incorrect_answers: incorrectAnswers,
-              } = item;
-              console.log(item);
-              const arr = incorrectAnswers.push(correctAnswer);
-              console.log(incorrectAnswers);
-              console.log(correctAnswer);
-              console.log(arr);
-              return (
-                <section key={ question }>
-                  <h4 data-testid="question-category">{category}</h4>
-                  <p data-testid="question-text">{question}</p>
-                  <div data-testid="answer-options">
-                    <button
-                      type="button"
-                      data-testid="correct-answer"
-                    >
-                      {correctAnswer}
-                    </button>
-                    <button
-                      type="button"
-                      data-testid="wrong-answer"
-                    >
-                      {incorrectAnswers}
-                    </button>
-                  </div>
-                </section>
-              );
-            }) }
+            : (
+              <section>
+                <h4 data-testid="question-category">{questions[index].category}</h4>
+                <p data-testid="question-text">{questions[index].question}</p>
+                <div data-testid="answer-options">
+                  {randomAnswer(questions[index].allAnswers)
+                    .map((question, i) => (
+                      <button
+                        key={ i }
+                        type="button"
+                        data-testid={ question
+                          .isCorrect ? 'correct-answer' : 'wrong-answer' }
+                      >
+                        {question.answerText}
+                      </button>
+                    ))}
+                </div>
+              </section>
+            )}
         </div>
 
         <button type="button" data-testid="btn-next" onClick={ handleClick }>
