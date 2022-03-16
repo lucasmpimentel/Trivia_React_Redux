@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import getItem from '../services/syncLocal';
 import logo from '../trivia.png';
 import '../styles/Header.css';
 
@@ -13,7 +14,7 @@ class Header extends Component {
 
   // Tive problemas ao usar arrow na didmount, por isso mantive nesse padrão.
   componentDidMount() {
-    const getPlayerJSON = localStorage.getItem('player');
+    const getPlayerJSON = getItem('player');
     const recoveryPlayer = JSON.parse(getPlayerJSON);
     this.setState({
       userName: recoveryPlayer.name,

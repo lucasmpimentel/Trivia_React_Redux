@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+/* import { getQuestionsAPI } from '../redux/actions/fetch'; */
 import { changeScore } from '../redux/actions';
 import Header from '../components/Header';
+import Questions from '../components/Questions';
 
 class Dashboard extends Component {
   handleClick = () => {
@@ -15,7 +17,7 @@ class Dashboard extends Component {
     return (
       <main>
         <Header />
-        Olá
+        <Questions />
         <button type="button" onClick={ handleClick }>TESTE ACTION SCORE</button>
       </main>
     );
