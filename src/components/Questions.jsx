@@ -70,7 +70,7 @@ export default class Questions extends Component {
                         key={ i }
                         type="button"
                         disabled={ isAnswered }
-                        onClick={ handleAnswerClick }
+                        onClick={ (e) => handleAnswerClick(e) }
                         data-testid={ question
                           .isCorrect ? 'correct-answer' : 'wrong-answer' }
                       >
