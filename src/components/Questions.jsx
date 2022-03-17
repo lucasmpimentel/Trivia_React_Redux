@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { refreshTokenAPI } from '../redux/actions/fetch';
 import { ReactComponent as Loading } from '../image/Eclipse-1s-200px.svg';
 
@@ -51,6 +52,7 @@ export default class Questions extends Component {
   }
 
   render() {
+    const { isAnswered, handleAnswerClick } = this.props;
     const { handleClick, randomAnswer } = this;
     const { questions, index } = this.state;
     return (
@@ -67,10 +69,13 @@ export default class Questions extends Component {
                       <button
                         key={ i }
                         type="button"
+                        disabled={ isAnswered }
+                        onClick={ handleAnswerClick }
                         data-testid={ question
                           .isCorrect ? 'correct-answer' : 'wrong-answer' }
                       >
                         {question.answerText}
+                        {/* isAnswered.toString() */}
                       </button>
                     ))}
                 </div>
@@ -85,3 +90,8 @@ export default class Questions extends Component {
     );
   }
 }
+
+Questions.propTypes = {
+  isAnswered: PropTypes.bool.isRequired,
+  handleAnswerClick: PropTypes.func.isRequired,
+};
