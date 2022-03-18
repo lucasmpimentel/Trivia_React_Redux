@@ -66,15 +66,14 @@ class Questions extends Component {
   }
 
   handleNextClick = () => {
-    const { history, restartState } = this.props;
+    const { historyProp, restartState } = this.props;
     const { index } = this.state;
     const INDEX_QUESTIONS_NUMBER = 4;
     if (index < INDEX_QUESTIONS_NUMBER) {
       this.setState({ index: index + 1 });
       restartState();
-    } else {
-      console.log(history);
     }
+    if (index === INDEX_QUESTIONS_NUMBER) historyProp('/feedback');
   };
 
   randomAnswer = (array) => {
@@ -117,7 +116,6 @@ class Questions extends Component {
                         } }
                         data-testid={ question
                           .isCorrect ? 'correct-answer' : 'wrong-answer' }
-                        onClick={ () => changeScores(question.isCorrect) }
                       >
                         {question.answerText}
                       </button>
@@ -150,9 +148,7 @@ Questions.propTypes = {
   player: PropTypes.arrayOf(
     PropTypes.string,
   ).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  historyProp: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Questions);

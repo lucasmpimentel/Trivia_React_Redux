@@ -54,12 +54,14 @@ componentDidMount() {
   render() {
     const { handleAnswerClick, restartState } = this;
     const { countDown, isAnswered } = this.state;
+    const { history } = this.props;
     return (
       <main className="main-container">
         <Header />
         <p>{`Tempo restante: ${countDown}`}</p>
         <p>{isAnswered.toString()}</p>
         <Questions
+          historyProp={ history.push }
           countDown={ countDown }
           isAnswered={ isAnswered }
           handleAnswerClick={ handleAnswerClick }
@@ -72,6 +74,9 @@ componentDidMount() {
 
 Dashboard.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect()(Dashboard);
