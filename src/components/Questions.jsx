@@ -75,6 +75,7 @@ class Questions extends Component {
   }
 
   render() {
+    const { isAnswered, handleAnswerClick } = this.props;
     const { handleClick, randomAnswer, changeScores } = this;
     const { questions, index } = this.state;
     return (
@@ -91,11 +92,14 @@ class Questions extends Component {
                       <button
                         key={ i }
                         type="button"
+                        disabled={ isAnswered }
+                        onClick={ (e) => handleAnswerClick(e) }
                         data-testid={ question
                           .isCorrect ? 'correct-answer' : 'wrong-answer' }
                         onClick={ () => changeScores(question.isCorrect) }
                       >
                         {question.answerText}
+                        {/* isAnswered.toString() */}
                       </button>
                     ))}
                 </div>
@@ -116,6 +120,8 @@ const mapStateToProps = (state) => ({
 });
 
 Questions.propTypes = {
+  isAnswered: PropTypes.bool.isRequired,
+  handleAnswerClick: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   player: PropTypes.arrayOf(
     PropTypes.string,
