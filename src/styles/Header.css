@@ -1,6 +1,7 @@
 .header-container {
   align-items: center;
-  border: 1px solid;
+  background-color: #282c34;
+  color: white;
   display: flex;
   justify-content: space-between;
   padding: 10px;

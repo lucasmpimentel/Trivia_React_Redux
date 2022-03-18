@@ -5,13 +5,12 @@ import { refreshTokenAPI } from '../redux/actions/fetch';
 import { ReactComponent as Loading } from '../image/Eclipse-1s-200px.svg';
 import { setItemRanking } from '../services/syncLocal';
 import { changeScore } from '../redux/actions';
+import '../styles/Questions.css';
 
 class Questions extends Component {
   state = {
     questions: [],
-    indexQuestions: 0,
     index: 0,
-    timer: 30,
   }
 
   async componentDidMount() {
@@ -43,15 +42,22 @@ class Questions extends Component {
   }
 
   changeScores = (answer) => {
-    const { questions, index, timer } = this.state;
+    const { questions, index } = this.state;
     const { difficulty } = questions[index];
-    const { player: { name, score, gravatarEmail, assertions }, dispatch } = this.props;
+    const { player: {
+      name,
+      score,
+      gravatarEmail,
+      assertions }, dispatch, countDown } = this.props;
     const scoreByDifficulty = { hard: 3, medium: 2, easy: 1 };
-    const pontuation = 10;
+    const BASE_PONTUATION = 10;
     let playerScore = 0;
     const assertionsCount = assertions + 1;
     if (answer) {
-      playerScore = score + (pontuation + (timer * scoreByDifficulty[difficulty]));
+      playerScore = score + (
+        BASE_PONTUATION + (
+          countDown * scoreByDifficulty[difficulty]
+        ));
       const newPlayerScore = { name, score: playerScore, picture: gravatarEmail };
       dispatch(changeScore({ score: playerScore, assertions: assertionsCount }));
       const newPlayerStorage = JSON.stringify(newPlayerScore);
@@ -59,9 +65,16 @@ class Questions extends Component {
     }
   }
 
-  handleClick = () => {
-    const { indexQuestions } = this.state;
-    this.setState({ indexQuestions: indexQuestions + 1 });
+  handleNextClick = () => {
+    const { history, restartState } = this.props;
+    const { index } = this.state;
+    const INDEX_QUESTIONS_NUMBER = 4;
+    if (index < INDEX_QUESTIONS_NUMBER) {
+      this.setState({ index: index + 1 });
+      restartState();
+    } else {
+      console.log(history);
+    }
   };
 
   randomAnswer = (array) => {
@@ -76,10 +89,10 @@ class Questions extends Component {
 
   render() {
     const { isAnswered, handleAnswerClick } = this.props;
-    const { handleClick, randomAnswer, changeScores } = this;
+    const { handleNextClick, randomAnswer, changeScores } = this;
     const { questions, index } = this.state;
     return (
-      <section>
+      <section className="questions-container">
         <div className="card-question-container">
           { questions.length === 0 ? <Loading />
             : (
@@ -90,16 +103,23 @@ class Questions extends Component {
                   {randomAnswer(questions[index].allAnswers)
                     .map((question, i) => (
                       <button
+                        className={
+                          `answer-button ${
+                            isAnswered && question.isCorrect ? 'green-border'
+                              : 'red-border'}`
+                        }
                         key={ i }
                         type="button"
                         disabled={ isAnswered }
-                        onClick={ (e) => handleAnswerClick(e) }
+                        onClick={ (event) => {
+                          handleAnswerClick(event);
+                          changeScores(question.isCorrect);
+                        } }
                         data-testid={ question
                           .isCorrect ? 'correct-answer' : 'wrong-answer' }
                         onClick={ () => changeScores(question.isCorrect) }
                       >
                         {question.answerText}
-                        {/* isAnswered.toString() */}
                       </button>
                     ))}
                 </div>
@@ -107,9 +127,11 @@ class Questions extends Component {
             )}
         </div>
 
-        <button type="button" data-testid="btn-next" onClick={ handleClick }>
-          Next
-        </button>
+        { isAnswered && (
+          <button type="button" data-testid="btn-next" onClick={ handleNextClick }>
+            Next
+          </button>
+        )}
       </section>
     );
   }
@@ -122,10 +144,15 @@ const mapStateToProps = (state) => ({
 Questions.propTypes = {
   isAnswered: PropTypes.bool.isRequired,
   handleAnswerClick: PropTypes.func.isRequired,
+  countDown: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
+  restartState: PropTypes.func.isRequired,
   player: PropTypes.arrayOf(
     PropTypes.string,
   ).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(Questions);

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { changeScore } from '../redux/actions';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
+import '../styles/Dashboard.css';
 
 class Dashboard extends Component {
 state = {
@@ -46,16 +47,24 @@ componentDidMount() {
     }, oneSecond);
   }
 
+  restartState = () => {
+    this.setState({ isAnswered: false, countDown: 30 });
+  }
+
   render() {
-    const { handleClick, handleAnswerClick } = this;
+    const { handleAnswerClick, restartState } = this;
     const { countDown, isAnswered } = this.state;
     return (
-      <main>
+      <main className="main-container">
         <Header />
-        <p>{countDown}</p>
+        <p>{`Tempo restante: ${countDown}`}</p>
         <p>{isAnswered.toString()}</p>
-        <Questions isAnswered={ isAnswered } handleAnswerClick={ handleAnswerClick } />
-        <button type="button" onClick={ handleClick }>TESTE ACTION SCORE</button>
+        <Questions
+          countDown={ countDown }
+          isAnswered={ isAnswered }
+          handleAnswerClick={ handleAnswerClick }
+          restartState={ restartState }
+        />
       </main>
     );
   }
