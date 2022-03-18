@@ -82,6 +82,7 @@ export default class Questions extends Component {
           Next
         </button>
       </section>
+      
     );
   }
 }
