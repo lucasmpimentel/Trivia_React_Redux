@@ -11,14 +11,6 @@
   pointer-events: none;
 }
 
-.red-border {
-  border: 1px solid red;
-}
-
-.green-border {
-  border: 1px solid green;
-}
-
 .login-container {
   align-items: center;
   display: flex;
