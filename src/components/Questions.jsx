@@ -117,6 +117,7 @@ class Questions extends Component {
                         } }
                         data-testid={ question
                           .isCorrect ? 'correct-answer' : 'wrong-answer' }
+                        onClick={ () => changeScores(question.isCorrect) }
                       >
                         {question.answerText}
                       </button>
