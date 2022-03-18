@@ -50,9 +50,19 @@ class Header extends Component {
         </div>
         <div className="score-container">
           { userScoreRedux ? (
-            <h2 data-testid="header-score">{`Placar: ${userScoreRedux}`}</h2>
+            <h2>
+              {'Placar: '}
+              <span data-testid="header-score">
+                {userScoreRedux}
+              </span>
+            </h2>
           ) : (
-            <h2 data-testid="header-score">{ `Placar: ${userScore}` }</h2>
+            <h2>
+              {'Placar: '}
+              <span data-testid="header-score">
+                {userScore}
+              </span>
+            </h2>
           )}
         </div>
       </header>
