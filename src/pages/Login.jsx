@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { getTokenAPI } from '../redux/actions/fetch';
-import { setItemPlayer, setItemToken } from '../services/syncLocal';
-import { token, player } from '../redux/actions';
+import { setItemToken } from '../services/syncLocal';
+import { token, player, changeScore } from '../redux/actions';
 import logo from '../trivia.png';
 import '../styles/Login.css';
 
@@ -13,6 +13,11 @@ class Login extends Component {
     buttonDisabled: true,
     userEmail: '',
     userName: '',
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(changeScore({ score: 0, assertions: 0 }));
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -32,11 +37,8 @@ class Login extends Component {
       name: userName,
       gravatarEmail: encryptEmail,
     };
-    const playerJSON = JSON.stringify(playerState);
     const tokenUser = await getTokenAPI();
     setItemToken(tokenUser);
-    console.log(tokenUser);
-    setItemPlayer(playerJSON);
     dispatch(token(tokenUser));
     dispatch(player(playerState));
     history.push('/dashboard');

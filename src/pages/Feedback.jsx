@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { setItemRanking, getItem } from '../services/syncLocal';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  componentDidMount() {
+    const { player } = this.props;
+    this.sendRanking(player);
+  }
+
+  sendRanking = (newPlayerScore) => {
+    const oldRankingJSON = getItem('ranking');
+    let oldRanking = JSON.parse(oldRankingJSON);
+    if (!oldRanking) {
+      oldRanking = [newPlayerScore];
+    } else {
+      oldRanking.push(newPlayerScore);
+    }
+    const newRankingStorage = JSON.stringify(oldRanking);
+    setItemRanking(newRankingStorage);
+  };
+
   render() {
     const { player: { assertions, score }, history } = this.props;
     const FEEDBACK_NUMBER = 3;
@@ -47,8 +65,9 @@ const mapStateToProps = (state) => ({
 });
 
 Feedback.propTypes = {
-  player: PropTypes.arrayOf(
+  player: PropTypes.objectOf(
     PropTypes.string,
+    PropTypes.number,
   ).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -16,9 +16,7 @@ state = {
 // }
 
 componentDidMount() {
-  const { isAnswered } = this.state;
   this.setTimer();
-  console.log(isAnswered.toString());
 }
 
   handleAnswerClick = () => {
