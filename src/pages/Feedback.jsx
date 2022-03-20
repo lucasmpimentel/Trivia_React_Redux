@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import { connect } from 'react-redux';
 import { setItemRanking, getItem } from '../services/syncLocal';
 import Header from '../components/Header';
@@ -65,10 +65,10 @@ const mapStateToProps = (state) => ({
 });
 
 Feedback.propTypes = {
-  player: PropTypes.objectOf(
+  player: PropTypes.objectOf(oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ).isRequired,
+  ])).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import { connect } from 'react-redux';
 import { refreshTokenAPI } from '../redux/actions/fetch';
 import { ReactComponent as Loading } from '../image/Eclipse-1s-200px.svg';
@@ -32,10 +32,15 @@ class Questions extends Component {
         difficulty: item.difficulty,
         allAnswers,
       });
-    })) }, () => {
-      const { questions } = this.state;
-      this.randomAnswer(questions[0].allAnswers);
-    });
+    })) });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { isAnswered } = this.props;
+    if (nextProps.isAnswered !== isAnswered || nextState !== this.state) {
+      return true;
+    }
+    return false;
   }
 
   changeScores = (answer) => {
@@ -81,7 +86,7 @@ class Questions extends Component {
 
   render() {
     const { isAnswered, handleAnswerClick } = this.props;
-    const { handleNextClick, randomAnswer, changeScores } = this;
+    const { handleNextClick, changeScores, randomAnswer } = this;
     const { questions, index } = this.state;
     return (
       <section className="questions-container">
@@ -92,27 +97,26 @@ class Questions extends Component {
                 <h4 data-testid="question-category">{questions[index].category}</h4>
                 <p data-testid="question-text">{questions[index].question}</p>
                 <div data-testid="answer-options">
-                  {randomAnswer(questions[index].allAnswers)
-                    .map((question, i) => (
-                      <button
-                        className={
-                          `answer-button ${
-                            isAnswered && question.isCorrect ? 'green-border'
-                              : 'red-border'}`
-                        }
-                        key={ i }
-                        type="button"
-                        disabled={ isAnswered }
-                        onClick={ (event) => {
-                          handleAnswerClick(event);
-                          changeScores(question.isCorrect);
-                        } }
-                        data-testid={ question
-                          .isCorrect ? 'correct-answer' : 'wrong-answer' }
-                      >
-                        {question.answerText}
-                      </button>
-                    ))}
+                  { randomAnswer(questions[index].allAnswers).map((question, i) => (
+                    <button
+                      className={
+                        `answer-button ${
+                          isAnswered && question.isCorrect ? 'green-border'
+                            : 'red-border'}`
+                      }
+                      key={ i }
+                      type="button"
+                      disabled={ isAnswered }
+                      onClick={ (event) => {
+                        handleAnswerClick(event);
+                        changeScores(question.isCorrect);
+                      } }
+                      data-testid={ question
+                        .isCorrect ? 'correct-answer' : 'wrong-answer' }
+                    >
+                      {question.answerText}
+                    </button>
+                  ))}
                 </div>
               </section>
             )}
@@ -138,10 +142,10 @@ Questions.propTypes = {
   countDown: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   restartState: PropTypes.func.isRequired,
-  player: PropTypes.objectOf(
+  player: PropTypes.objectOf(oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ).isRequired,
+  ])).isRequired,
   historyProp: PropTypes.func.isRequired,
 };
 

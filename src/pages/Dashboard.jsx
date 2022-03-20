@@ -57,7 +57,6 @@ componentDidMount() {
       <main className="main-container">
         <Header />
         <p>{`Tempo restante: ${countDown}`}</p>
-        <p>{isAnswered.toString()}</p>
         <Questions
           historyProp={ history.push }
           countDown={ countDown }
