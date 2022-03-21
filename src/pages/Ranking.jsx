@@ -29,7 +29,12 @@ class Ranking extends Component {
           { ranking.map((player, index) => (
             <div className="ranking-line" key={ index }>
               <img src={ `https://www.gravatar.com/avatar/${player.picture}` } alt="Player Avatar" />
-              <h3 className="ranking-table-text" data-testid={ `player-name-${index}` }>{ player.name }</h3>
+              <h3
+                className="ranking-table-text"
+                data-testid={ `player-name-${index}` }
+              >
+                { player.name }
+              </h3>
               <h4 className="ranking-table-text">
                 {'Score: '}
                 <span data-testid={ `player-score-${index}` }>{ player.score }</span>
