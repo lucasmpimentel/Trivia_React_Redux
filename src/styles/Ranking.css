@@ -2,7 +2,9 @@
 
 .ranking-container {
   align-items: center;
+  background: url('../image/25101.jpg') no-repeat center center fixed;
   background-color: darkgray;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -17,7 +19,7 @@
   display: flex;
   justify-content: center;
   min-height: 100px;
-  width: 100vw;
+  width: 98.9vw;
 }
 
 .ranking-title {
@@ -49,7 +51,7 @@
 
 .ranking-line {
   align-items: center;
-  background-color: rgb(207, 207, 207);
+  background-color: rgba(207, 207, 207, 0.7);
   border-bottom: solid 3px rgb(1, 90, 131);
   display: flex;
   justify-content: space-between;

@@ -2,11 +2,14 @@
 
 .main-container {
   align-items: center;
+  background: url('../image/25101.jpg') no-repeat center center fixed;
   background-color: darkgray;
+  background-size: cover;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  max-height: 100%;
   max-width: 100vw;
+  min-height: 100vh;
 }
 
 .timer {
