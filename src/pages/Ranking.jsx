@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getItem } from '../services/syncLocal';
 /* import Header from '../components/Header'; */
+import '../styles/Ranking.css';
 
 class Ranking extends Component {
   state = {
@@ -21,14 +22,20 @@ class Ranking extends Component {
     const { ranking } = this.state;
     return (
       <main className="ranking-container">
-        {/* <Header /> */}
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <section>
+        <header className="ranking-header">
+          <h1 className="ranking-title" data-testid="ranking-title">Ranking</h1>
+        </header>
+        <section className="ranking-table-container">
           { ranking.map((player, index) => (
-            <div key={ index }>
+            <div className="ranking-line" key={ index }>
               <img src={ `https://www.gravatar.com/avatar/${player.picture}` } alt="Player Avatar" />
-              <h3 data-testid={ `player-name-${index}` }>{ player.name }</h3>
-              <h4>
+              <h3
+                className="ranking-table-text"
+                data-testid={ `player-name-${index}` }
+              >
+                { player.name }
+              </h3>
+              <h4 className="ranking-table-text">
                 {'Score: '}
                 <span data-testid={ `player-score-${index}` }>{ player.score }</span>
               </h4>
@@ -36,6 +43,7 @@ class Ranking extends Component {
           )) }
         </section>
         <button
+          className="exit-btn"
           type="button"
           onClick={ () => history.push('/') }
           data-testid="btn-go-home"

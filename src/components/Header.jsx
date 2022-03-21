@@ -17,7 +17,7 @@ class Header extends Component {
             alt="profile"
           />
           <h2
-            className="player-name"
+            className="names"
             data-testid="header-player-name"
           >
             {userNameRedux}
@@ -27,7 +27,7 @@ class Header extends Component {
           <img className="trivia-logo" src={ logo } alt="logo" />
         </div>
         <div className="score-container">
-          <h2>
+          <h2 className="names">
             {'Placar: '}
             <span data-testid="header-score">
               {userScoreRedux}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import { connect } from 'react-redux';
 import { refreshTokenAPI } from '../redux/actions/fetch';
 import { ReactComponent as Loading } from '../image/Eclipse-1s-200px.svg';
@@ -32,10 +32,15 @@ class Questions extends Component {
         difficulty: item.difficulty,
         allAnswers,
       });
-    })) }, () => {
-      const { questions } = this.state;
-      this.randomAnswer(questions[0].allAnswers);
-    });
+    })) });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { isAnswered } = this.props;
+    if (nextProps.isAnswered !== isAnswered || nextState !== this.state) {
+      return true;
+    }
+    return false;
   }
 
   changeScores = (answer) => {
@@ -79,9 +84,16 @@ class Questions extends Component {
     return array;
   }
 
+  classNameDefinition = (question) => {
+    const { isAnswered } = this.props;
+    if (!isAnswered) return 'answer-button';
+    if (isAnswered && question.isCorrect) return 'answer-button green-border';
+    return 'answer-button red-border';
+  }
+
   render() {
     const { isAnswered, handleAnswerClick } = this.props;
-    const { handleNextClick, randomAnswer, changeScores } = this;
+    const { handleNextClick, changeScores, randomAnswer, classNameDefinition } = this;
     const { questions, index } = this.state;
     return (
       <section className="questions-container">
@@ -89,37 +101,47 @@ class Questions extends Component {
           { questions.length === 0 ? <Loading />
             : (
               <section>
-                <h4 data-testid="question-category">{questions[index].category}</h4>
-                <p data-testid="question-text">{questions[index].question}</p>
-                <div data-testid="answer-options">
-                  {randomAnswer(questions[index].allAnswers)
-                    .map((question, i) => (
-                      <button
-                        className={
-                          `answer-button ${
-                            isAnswered && question.isCorrect ? 'green-border'
-                              : 'red-border'}`
-                        }
-                        key={ i }
-                        type="button"
-                        disabled={ isAnswered }
-                        onClick={ (event) => {
-                          handleAnswerClick(event);
-                          changeScores(question.isCorrect);
-                        } }
-                        data-testid={ question
-                          .isCorrect ? 'correct-answer' : 'wrong-answer' }
-                      >
-                        {question.answerText}
-                      </button>
-                    ))}
+                <h4
+                  className="question-category"
+                  data-testid="question-category"
+                >
+                  {questions[index].category}
+                </h4>
+                <p
+                  className="question-text"
+                  data-testid="question-text"
+                >
+                  {questions[index].question}
+                </p>
+                <div className="answer-options" data-testid="answer-options">
+                  { randomAnswer(questions[index].allAnswers).map((question, i) => (
+                    <button
+                      className={ classNameDefinition(question) }
+                      key={ i }
+                      type="button"
+                      disabled={ isAnswered }
+                      onClick={ (event) => {
+                        handleAnswerClick(event);
+                        changeScores(question.isCorrect);
+                      } }
+                      data-testid={ question
+                        .isCorrect ? 'correct-answer' : 'wrong-answer' }
+                    >
+                      {question.answerText}
+                    </button>
+                  ))}
                 </div>
               </section>
             )}
         </div>
 
         { isAnswered && (
-          <button type="button" data-testid="btn-next" onClick={ handleNextClick }>
+          <button
+            className="next-button"
+            type="button"
+            data-testid="btn-next"
+            onClick={ handleNextClick }
+          >
             Next
           </button>
         )}
@@ -138,10 +160,10 @@ Questions.propTypes = {
   countDown: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   restartState: PropTypes.func.isRequired,
-  player: PropTypes.objectOf(
+  player: PropTypes.objectOf(oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ).isRequired,
+  ])).isRequired,
   historyProp: PropTypes.func.isRequired,
 };
 
