@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&display=swap') ;
+
+.feedback-main-container {
+  align-items: center;
+  background-color: darkgray;
+  display: flex;
+  flex-flow: column;
+  flex-direction: column;
+  height: 100vh;
+  padding: 50px;
+}
+
+.feedback-container {
+  background-color: rgb(207, 207, 207);
+  border-bottom: solid 3px rgb(1, 90, 131);
+  padding: 30px;
+}
+
+.title-feedback {
+  color: rgb(70, 70, 70);
+  display: flex;
+  font-family: Bungee , cursive;
+  font-size: 28pt;
+  font-weight: 400;
+  margin: 0;
+}
+
+.scores {
+  color: rgb(70, 70, 70);
+  font-family: Bebas Neue , cursive;
+  font-size: 20pt;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.play-again-button {
+  align-items: center;
+  appearance: none;
+  background-color: rgb(187, 6, 6);
+  border: none;
+  border-radius: 3px;
+  box-sizing: content-box;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  margin: 10px auto 5px;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 250px;
+}
+
+.play-again-button:hover {
+  background-color: rgb(235, 0, 0);
+}
+
+.ranking-button {
+  align-items: center;
+  appearance: none;
+  background-color: rgb(1, 90, 131);
+  border: none;
+  border-radius: 3px;
+  box-sizing: content-box;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  margin: 5px auto;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 250px;
+}
+
+.ranking-button:hover {
+  background-color: rgb(18, 172, 243);
+}

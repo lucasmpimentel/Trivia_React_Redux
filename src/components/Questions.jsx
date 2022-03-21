@@ -84,9 +84,16 @@ class Questions extends Component {
     return array;
   }
 
+  classNameDefinition = (question) => {
+    const { isAnswered } = this.props;
+    if (!isAnswered) return 'answer-button';
+    if (isAnswered && question.isCorrect) return 'answer-button green-border';
+    return 'answer-button red-border';
+  }
+
   render() {
     const { isAnswered, handleAnswerClick } = this.props;
-    const { handleNextClick, changeScores, randomAnswer } = this;
+    const { handleNextClick, changeScores, randomAnswer, classNameDefinition } = this;
     const { questions, index } = this.state;
     return (
       <section className="questions-container">
@@ -94,16 +101,22 @@ class Questions extends Component {
           { questions.length === 0 ? <Loading />
             : (
               <section>
-                <h4 data-testid="question-category">{questions[index].category}</h4>
-                <p data-testid="question-text">{questions[index].question}</p>
-                <div data-testid="answer-options">
+                <h4
+                  className="question-category"
+                  data-testid="question-category"
+                >
+                  {questions[index].category}
+                </h4>
+                <p
+                  className="question-text"
+                  data-testid="question-text"
+                >
+                  {questions[index].question}
+                </p>
+                <div className="answer-options" data-testid="answer-options">
                   { randomAnswer(questions[index].allAnswers).map((question, i) => (
                     <button
-                      className={
-                        `answer-button ${
-                          isAnswered && question.isCorrect ? 'green-border'
-                            : 'red-border'}`
-                      }
+                      className={ classNameDefinition(question) }
                       key={ i }
                       type="button"
                       disabled={ isAnswered }
@@ -123,7 +136,12 @@ class Questions extends Component {
         </div>
 
         { isAnswered && (
-          <button type="button" data-testid="btn-next" onClick={ handleNextClick }>
+          <button
+            className="next-button"
+            type="button"
+            data-testid="btn-next"
+            onClick={ handleNextClick }
+          >
             Next
           </button>
         )}

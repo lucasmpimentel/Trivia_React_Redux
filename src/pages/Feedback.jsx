@@ -3,6 +3,7 @@ import PropTypes, { oneOfType } from 'prop-types';
 import { connect } from 'react-redux';
 import { setItemRanking, getItem } from '../services/syncLocal';
 import Header from '../components/Header';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -28,19 +29,37 @@ class Feedback extends Component {
     return (
       <>
         <Header />
-        <main>
-          { assertions < FEEDBACK_NUMBER
-            ? <h1 data-testid="feedback-text">Could be better...</h1>
-            : <h1 data-testid="feedback-text">Well Done!</h1> }
-          <div>
-            <h3 data-testid="feedback-total-score">
-              {score}
+        <main className="feedback-main-container">
+          <section className="feedback-container">
+            <div className="title-container">
+              { assertions < FEEDBACK_NUMBER
+                ? (
+                  <h2
+                    className="title-feedback"
+                    data-testid="feedback-text"
+                  >
+                    Could be better...
+                  </h2>
+                ) : (
+                  <h2
+                    className="title-feedback"
+                    data-testid="feedback-text"
+                  >
+                    Well Done!
+                  </h2>
+                )}
+            </div>
+            <h3 className="scores">
+              {'Score: '}
+              <span data-testid="feedback-total-score">{score}</span>
             </h3>
-            <h3 data-testid="feedback-total-question">
-              {assertions}
+            <h3 className="scores">
+              {'Assertions: '}
+              <span data-testid="feedback-total-question">{assertions}</span>
             </h3>
-          </div>
+          </section>
           <button
+            className="play-again-button"
             type="button"
             onClick={ () => history.push('/') }
             data-testid="btn-play-again"
@@ -48,6 +67,7 @@ class Feedback extends Component {
             Play Again
           </button>
           <button
+            className="ranking-button"
             type="button"
             onClick={ () => history.push('/ranking') }
             data-testid="btn-ranking"

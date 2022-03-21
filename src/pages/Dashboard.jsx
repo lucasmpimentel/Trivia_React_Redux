@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { BsClock } from "react-icons/bs";
 import { changeScore } from '../redux/actions';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
@@ -56,7 +57,11 @@ componentDidMount() {
     return (
       <main className="main-container">
         <Header />
-        <p>{`Tempo restante: ${countDown}`}</p>
+        <p className="timer">
+          {'Tempo restante: '}
+          <BsClock />
+          {countDown}
+        </p>
         <Questions
           historyProp={ history.push }
           countDown={ countDown }
