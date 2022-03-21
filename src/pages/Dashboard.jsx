@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { BsClock } from "react-icons/bs";
+import { BsClock } from 'react-icons/bs';
 import { changeScore } from '../redux/actions';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
